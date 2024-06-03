@@ -6,3 +6,20 @@ export interface IUser {
 	avatar: string;
 	bio: string;
 }
+
+
+interface IPlaylistFull {
+	id: number;
+	genre: string;
+	name: string;
+	songs: string[];
+}
+
+interface IPlaylistEmty {
+	id: number;
+	genre: "Non Music";
+	name: "";
+	songs: [];
+}
+
+export type TPlaylist = IPlaylistFull | IPlaylistEmty;
