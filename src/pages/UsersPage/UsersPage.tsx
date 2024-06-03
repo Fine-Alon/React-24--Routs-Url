@@ -1,36 +1,49 @@
-import { ChangeEvent, useState } from "react";
-import { USERS } from "../../data";
-import { Transit } from "../../PagesProvider";
+import {ChangeEvent, useEffect, useState} from "react";
+import {USERS} from "../../data";
 import "./UsersPage.css";
+import {Link, useSearchParams} from "react-router-dom";
 
 export function UsersPage() {
-	const [searchName, setSearchName] = useState<string>("");
+    let [searchParams, setSearchParams] = useSearchParams();
 
-	const handleSearchName = (event: ChangeEvent<HTMLInputElement>): void => {
-		const { value } = event.target;
-		setSearchName(value);
-	};
+    const [searchName, setSearchName] = useState<string>
+    (searchParams.get("searchName") || '');
 
-	const filteredUsers = USERS.filter(({ fullName }) =>
-		fullName.toLowerCase().includes(searchName)
-	);
+    useEffect(() => {
+        setSearchName(searchParams.get("searchName")||'')
+    }, [searchParams.get("searchName")]);
 
-	return (
-		<div className="usersPage">
-			<h2>UsersPage</h2>
+    // or u can cut down the code and use
+    // const searchName = searchParams.get("searchName") || ''
+    // that is all, that way u dont need useEffect
 
-			<div className="users">
-				<label>
-					введите имя{" "}
-					<input type="text" value={searchName} onChange={handleSearchName} />
-				</label>
+    const handleSearchName = (event: ChangeEvent<HTMLInputElement>): void => {
+        const {value} = event.target;
+        setSearchParams({
+            'searchName': value.toLowerCase()
+        });
+    };
 
-				{filteredUsers.map(({ id, fullName }) => (
-					<Transit to={`/users/${id}`} key={id}>
-						{fullName}
-					</Transit>
-				))}
-			</div>
-		</div>
-	);
+    const filteredUsers = USERS.filter(({fullName}) =>
+        fullName.toLowerCase().includes(searchName)
+    );
+
+    return (
+        <div className="usersPage">
+            <h2>UsersPage</h2>
+
+            <div className="users">
+                <label>
+                    введите имя{" "}
+                    <input type="text" value={searchName} onChange={handleSearchName}/>
+                </label>
+
+                {filteredUsers.map(({id, fullName}) => (
+                    <Link to={`/users/${id}`} key={id}>
+                        {fullName}
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
 }
