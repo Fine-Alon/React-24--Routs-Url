@@ -7,7 +7,8 @@ export function UserInfoPage() {
 	let { userId } = useParams();
 
 	const user = USERS[Number(userId)];
-	console.log(userId)
+
+	console.log(user)
 	if (!user) {
 		return (
 			<div className="userInfoPage">
