@@ -1,7 +1,7 @@
 import "./PlayListsInfoPage.css";
 import {PLAYLISTS} from "../../data/playlists";
-import {useParams} from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
+import {Link, useParams} from "react-router-dom";
+import {v4 as uuidv4} from 'uuid';
 
 export function PlayListsInfoPage() {
     let {playlistId} = useParams()
@@ -23,9 +23,11 @@ export function PlayListsInfoPage() {
         <div>
             <h1>PlayListsInfoPage</h1>
 
-            <h3>Genre: {currentPlayList.genre}</h3>
+            <h3>Genre: <Link to={"/playlists"}> {currentPlayList.genre}</Link></h3>
 
             <p>Name: {currentPlayList.name}</p>
+            <div style={{borderBottom: '1px solid #ccc', margin: '10px 0'}}/>
+
 
             <ul>
                 {currentPlayList.songs.map(song => <li key={uuidv4()}>
